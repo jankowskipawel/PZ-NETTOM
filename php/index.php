@@ -1,7 +1,7 @@
 <?php
 
 require_once 'database.php';
-
+ini_set('memory_limit', '1000M');
 $startTime = new DateTime();
 echo "Czas rozpoczęcia: ".$startTime->format('H:i:s:u')."<br><br>";
 
@@ -11,11 +11,13 @@ if($result==false) {
 }
 
 echo 'Wczytano rekordów: '.mysqli_num_rows($result).'<br><br>';
+//database - variable with whole database
+$database = array();
+while($rows = $result->fetch_row()) {
 
-for($i = 0; $i < mysqli_num_rows($result); $i++)
-{
-    $row= $result->fetch_assoc();
+    $database[] = $rows;
 }
+echo $database[0][3];
 
 $stopTime = new DateTime();
 echo "Czas zakończenia: ".$stopTime->format('H:i:s:u')."<br><br>";
