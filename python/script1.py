@@ -1,4 +1,5 @@
 #!/var/www/html/cgi-enabled/env/bin/python3
+from config import *
 import pymysql
 import datetime
 ram = "1GB"
@@ -6,11 +7,6 @@ print("Content-type: text/html\n\n")
 print("<html>\n<body>")
 print( "<div style=\"width: 100%; font-size: 12pt;\">")
 
-db = pymysql.connect(host='192.168.0.27',
-                             user='root',
-                             password='PzNettom2021!',
-                             database='CSV_DB',
-                             port=3306)
 cursor = db.cursor()
 print( "<div style=\"width: 100%; font-size: 12pt;\">")
 print( "<div style=\"width: 100%; font-weight: bold; font-size: 16pt;\">")
