@@ -18,6 +18,7 @@ print(f"PYTHON (RAM: {ram})<br><br>")
 print( "</div>")
 
 print("Loading database...<br>")
+totalTime = datetime.datetime.min
 datestart = datetime.datetime.now()
 sql = "SELECT * FROM covid ORDER BY location ASC"
 cursor.execute(sql)
@@ -27,9 +28,11 @@ for row in rows:
   database.append(row)
 db.close()
 dateend = datetime.datetime.now()
+elapsedTime=dateend-datestart
+totalTime+=elapsedTime
 print(f"Loaded {len(database)} rows ({len(database[0])} columns each).<br>")
 #database is List[List[str]]
-print(f"Elapsed time (database load): {dateend-datestart}   (Started: {datestart}, Finished: {dateend})<br><br>")
+print(f"Elapsed time (database load): {elapsedTime}   (Started: {datestart}, Finished: {dateend})<br><br>")
 print("Executing script...<br>")
 
 datestart = datetime.datetime.now()
@@ -38,5 +41,8 @@ datestart = datetime.datetime.now()
 #print(database[0])
 
 dateend = datetime.datetime.now()
-print(f"Elapsed time (script execution): {dateend-datestart}   (Started: {datestart}, Finished: {dateend})")
+elapsedTime=dateend-datestart
+totalTime+=elapsedTime
+print(f"Elapsed time (script execution): {elapsedTime}   (Started: {datestart}, Finished: {dateend})<br><br>")
+print(f"Total time elapsed: {totalTime.strftime('%H:%M:%S.%f')}")
 print("</div>\n</body>\n</html>")
