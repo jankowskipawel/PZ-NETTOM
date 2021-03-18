@@ -1,14 +1,10 @@
 #!/var/www/html/cgi-enabled/env/bin/python3
+from config import *
 import pymysql
 print("Content-type: text/html\n\n")
 print("<html>\n<body>")
 print( "<div style=\"width: 100%; font-size: 40px; font-weight: bold; text-align: center;\">")
 
-
-db = pymysql.connect(host='192.168.0.27',
-                             user='root',
-                             password='PzNettom2021!',
-                             database='CSV_DB' )
 cursor = db.cursor()
 cursor.execute("SHOW TABLES")
 result = cursor.fetchone()
