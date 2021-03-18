@@ -10,6 +10,8 @@ Python scripts server adress: `http://IP/cgi-enabled/filename.py` ex.`http://192
 
 # PHP
 PHP scripts directory: `/var/www/php-test`
+PHP scripts server adress: `http://IP/filename.php` ex.`http://192.168.0.26/filename.php`
+
 
 # Percona
 Database name: `CSV_DB`
