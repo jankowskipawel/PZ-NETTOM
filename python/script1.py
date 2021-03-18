@@ -29,8 +29,7 @@ totalTime+=elapsedTime
 print(f"Loaded {len(data)} rows ({len(data[0])} columns each).<br>")
 #data is List[List[str]]
 print(f"Elapsed time (data load): {elapsedTime}   (Started: {datestart}, Finished: {dateend})<br><br>")
-print("Executing script...<br>")
-print("<br>Script output:<br>")
+print("<br>Script output:<br><br>")
 
 datestart = datetime.datetime.now()
 
@@ -55,6 +54,6 @@ for i in dict:
 dateend = datetime.datetime.now()
 elapsedTime=dateend-datestart
 totalTime+=elapsedTime
-print(f"<br><br>Elapsed time (script execution): {elapsedTime}   (Started: {datestart}, Finished: {dateend})<br><br>")
+print(f"<br>Elapsed time (script execution): {elapsedTime}   (Started: {datestart}, Finished: {dateend})<br><br>")
 print(f"Total time elapsed: {totalTime.strftime('%H:%M:%S.%f')}")
 print("</div>\n</body>\n</html>")

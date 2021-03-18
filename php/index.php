@@ -31,7 +31,7 @@ echo 'Elapsed time (database load): '.$difference->format('%Im %Ss %Fms').' (Sta
 //Lodaing database test - stop
 
 //Executing script test - start
-echo "Executing script...<br>";
+echo "Script output:<br>";
 $startTime = new DateTime();
 
 //----------------------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ foreach ($dataSet as $locationName => $locationData){
 $stopTime = new DateTime();
 $difference = $startTime->diff($stopTime);
 $totalTime->add($difference);
-echo 'Elapsed time (script execution): '.$difference->format('%Im %Ss %Fms').' (Started: '.$startTime->format('H:i:s:u').', Finished: '.$stopTime->format('H:i:s:u').')<br><br>';
+echo '<br>Elapsed time (script execution): '.$difference->format('%Im %Ss %Fms').' (Started: '.$startTime->format('H:i:s:u').', Finished: '.$stopTime->format('H:i:s:u').')<br><br>';
 //Executing script test - stop
 
 echo 'Total time elapsed: '.$totalTime->format('H:i:s:u').' ';
