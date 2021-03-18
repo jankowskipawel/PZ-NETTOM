@@ -18,10 +18,7 @@ totalTime = datetime.datetime.min
 datestart = datetime.datetime.now()
 sql = "SELECT * FROM covid ORDER BY location ASC"
 cursor.execute(sql)
-rows = cursor.fetchall()
-database = []
-for row in rows:
-  database.append(row)
+database = cursor.fetchall()
 db.close()
 dateend = datetime.datetime.now()
 elapsedTime=dateend-datestart

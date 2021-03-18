@@ -16,19 +16,19 @@ print( "</div>")
 print("Loading database...<br>")
 totalTime = datetime.datetime.min
 datestart = datetime.datetime.now()
-sql = "SELECT location, sum(new_cases), count(location) FROM covid group by Location"
+sql = "SELECT location, new_cases FROM covid"
 cursor.execute(sql)
-rows = cursor.fetchall()
-database = []
-for row in rows:
-  database.append(row)
+data = cursor.fetchall()
+# database = []
+# for row in rows:
+#   database.append(row)
 db.close()
 dateend = datetime.datetime.now()
 elapsedTime=dateend-datestart
 totalTime+=elapsedTime
-print(f"Loaded {len(database)} rows ({len(database[0])} columns each).<br>")
-#database is List[List[str]]
-print(f"Elapsed time (database load): {elapsedTime}   (Started: {datestart}, Finished: {dateend})<br><br>")
+print(f"Loaded {len(data)} rows ({len(data[0])} columns each).<br>")
+#data is List[List[str]]
+print(f"Elapsed time (data load): {elapsedTime}   (Started: {datestart}, Finished: {dateend})<br><br>")
 print("Executing script...<br>")
 print("<br>Script output:<br>")
 
@@ -36,12 +36,21 @@ datestart = datetime.datetime.now()
 
 ############insert script here############
 dict = {}
-for i in database:
-         dict[i[0]] = [i[1], i[2]]
+for i in data:
+    location = i[0]
+    if i[1] == '':
+        new_cases = float(0)
+    else:
+        new_cases = float(i[1])
+    if location in dict.keys():
+        dict[location][0] += new_cases
+        dict[location][1] += 1
+    else:
+        dict[location] = [new_cases, 1]
 
 for i in dict:
-        average = dict[i][0] / dict[i][1]
-        print(i + " " + str(average))
+    print(i + " " + str(dict[i][0] / dict[i][1]) + "<br>")
+
 
 dateend = datetime.datetime.now()
 elapsedTime=dateend-datestart
