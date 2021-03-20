@@ -48,7 +48,7 @@ for i in data:
         dict[location] = [new_cases, 1]
 
 for i in dict:
-    print(i + " " + str(dict[i][0] / dict[i][1]) + "<br>")
+    print(i + ": " + str(dict[i][0] / dict[i][1]) + "<br>")
 
 
 dateend = datetime.datetime.now()
