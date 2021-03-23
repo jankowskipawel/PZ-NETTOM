@@ -10,7 +10,7 @@ print( "<div style=\"width: 100%; font-size: 12pt;\">")
 cursor = db.cursor()
 print( "<div style=\"width: 100%; font-size: 12pt;\">")
 print( "<div style=\"width: 100%; font-weight: bold; font-size: 16pt;\">")
-print(f"PYTHON (RAM: {ram})<br><br>")
+print(f"PYTHON (RAM:{ram})<br><br>")
 print( "</div>")
 
 print("Loading database...<br>")

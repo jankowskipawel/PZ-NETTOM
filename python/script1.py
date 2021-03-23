@@ -9,7 +9,7 @@ print("<html>\n<body>")
 print( "<div style=\"width: 100%; font-size: 12pt;\">")
 print( "<div style=\"width: 100%; font-size: 12pt;\">")
 print( "<div style=\"width: 100%; font-weight: bold; font-size: 16pt;\">")
-print(f"PYTHON (RAM: {ram})<br><br>")
+print(f"PYTHON (RAM:{ram})<br><br>")
 print( "</div>")
               
 totalTime = datetime.datetime.min

@@ -4,7 +4,7 @@ require_once 'database.php';
 ini_set('memory_limit', '1000M');
 $ram="1GB";
 echo '<div style="width: 100%; font-weight: bold; font-size: 16pt;">';
-echo "PHP (RAM: ".$ram.")<br><br>";
+echo "PHP (RAM:".$ram.")<br><br>";
 echo '</div>';
 
 //Lodaing database test - start
