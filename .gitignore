@@ -7,7 +7,9 @@
 .idea/**/dictionaries
 .idea/**/shelf
 .idea/
-speedTester/venv
+speedTester/venv/
+venv/
+__pycache__/
 speedTester/__pycache__
 # Generated files
 .idea/**/contentModel.xml
