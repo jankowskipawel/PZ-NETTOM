@@ -1,0 +1,111 @@
+<?php
+
+require_once 'database.php';
+ini_set('memory_limit', '1000M');
+$ram="1GB";
+echo '<div style="width: 100%; font-weight: bold; font-size: 16pt;">';
+echo "PHP (RAM:".$ram.")<br><br>";
+echo '</div>';
+
+//Lodaing database test - start
+$startTime = new DateTime();
+$totalTime = new DateTime('00:00');
+
+echo "Loading database...<br>";
+
+$result = $connection->query("SELECT * FROM covid");
+if($result==false) {
+    throw new Exception($connection->error);
+}
+
+$database = array();
+while($rows = $result->fetch_row()) {
+    $database[] = $rows;
+}
+echo 'Loaded '.count($database).' rows ('.count($database[0]).' columns each).<br>';
+
+$stopTime = new DateTime();
+$difference = $startTime->diff($stopTime);
+$totalTime->add($difference);
+echo 'Elapsed time (database load): '.$difference->format('%Im %Ss %Fms').' (Started: '.$startTime->format('H:i:s:u').', Finished: '.$stopTime->format('H:i:s:u').')<br><br>';
+//Lodaing database test - stop
+
+//Executing script test - start
+echo "script executing...<br>";
+$startTime = new DateTime();
+
+//----------------------------------------------------------------------------------------------------
+function emptyToPi($dataset)
+{
+    for ($row = 0; $row < count($dataset); $row++) {
+        for($col = 4; $col < count($dataset[$row]); $col++) {
+            if(is_numeric($dataset[$row][$col])) {
+                $dataset[$row][$col] = (float)$dataset[$row][$col];
+            }
+            else {
+                $dataset[$row][$col] = M_PI;
+            }
+        }
+    }
+
+    return $dataset;
+}
+
+function emptyToRandom($dataset, $minRandom, $maxRandom)
+{
+    for ($row = 0; $row < count($dataset); $row++) {
+        for($col = 4; $col < count($dataset[$row]); $col++) {
+            if(is_numeric($dataset[$row][$col])) {
+                $dataset[$row][$col] = (float)$dataset[$row][$col];
+                #$dataset[$row][$col] = (int)$dataset[$row][$col];
+            }
+            else {
+                $dataset[$row][$col] = (float)rand($minRandom, $maxRandom);
+                #$dataset[$row][$col] = (int)rand($minRandom, $maxRandom);
+            }
+        }
+    }
+
+    return $dataset;
+}
+
+function ciezkiSkrypt($dataset)
+{
+    for ($row = 0; $row < count($dataset); $row++) {
+        for($col = 4; $col < count($dataset[$row]); $col++) {
+            if(is_numeric($dataset[$row][$col])) {
+                $x = $dataset[$row][$col];
+                $dataset[$row][$col] = log(
+                    pow(pow($x, 1 / 3) + pow($x, 1 / 2), 50) /
+                    (round((pow(pow($x, 1 / 3) - pow($x, 1 / 2), 50)), 2) + 1)
+                );
+            }
+        }
+    }
+
+    return $dataset;
+}
+
+#$database = emptyToPi($database);
+$database = emptyToRandom($database, 1, 10);
+$database = ciezkiSkrypt($database);
+
+/*  wypisanie całej bazy
+
+  foreach ($database as $row) {
+    foreach ($row as $value) {
+        echo " | ".$value;
+    }
+    echo " |<br><br>";
+} */
+//----------------------------------------------------------------------------------------------------
+
+$stopTime = new DateTime();
+$difference = $startTime->diff($stopTime);
+$totalTime->add($difference);
+echo '<br>Elapsed time (script execution): '.$difference->format('%Im %Ss %Fms').' (Started: '.$startTime->format('H:i:s:u').', Finished: '.$stopTime->format('H:i:s:u').')<br><br>';
+//Executing script test - stop
+
+echo 'Total time elapsed: '.$totalTime->format('H:i:s:u').' ';
+
+die();

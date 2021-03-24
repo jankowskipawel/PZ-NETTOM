@@ -13,7 +13,7 @@ $totalTime = new DateTime('00:00');
 
 echo "Loading database...<br>";
 
-$result = $connection->query("SELECT location, new_cases FROM covid");
+$result = $connection->query("SELECT * FROM covid");
 if($result==false) {
     throw new Exception($connection->error);
 }
@@ -31,28 +31,73 @@ echo 'Elapsed time (database load): '.$difference->format('%Im %Ss %Fms').' (Sta
 //Lodaing database test - stop
 
 //Executing script test - start
-echo "Script output:<br>";
+echo "script executing...<br>";
 $startTime = new DateTime();
 
 //----------------------------------------------------------------------------------------------------
-$dataSet = array();
-foreach ($database as $row) {
-    $location = $row[0];
-    $new_cases = (float)$row[1];
+function emptyToPi($dataset)
+{
+    for ($row = 0; $row < count($dataset); $row++) {
+        for($col = 4; $col < count($dataset[$row]); $col++) {
+            if(is_numeric($dataset[$row][$col])) {
+                $dataset[$row][$col] = (float)$dataset[$row][$col];
+            }
+            else {
+                $dataset[$row][$col] = M_PI;
+            }
+        }
+    }
 
-    if(array_key_exists($location, $dataSet)) {
-        $dataSet[$location][0] += $new_cases;
-        $dataSet[$location][1] += 1;
-    }
-    else {
-        $dataSet[$location] = array($new_cases, 1);
-    }
+    return $dataset;
 }
 
-echo "<br>";
-foreach ($dataSet as $locationName => $locationData){
-    echo $locationName.": ".$locationData[0] / $locationData[1]."<br>";
+function emptyToRandom($dataset, $minRandom, $maxRandom)
+{
+    for ($row = 0; $row < count($dataset); $row++) {
+        for($col = 4; $col < count($dataset[$row]); $col++) {
+            if(is_numeric($dataset[$row][$col])) {
+                $dataset[$row][$col] = (float)$dataset[$row][$col];
+                #$dataset[$row][$col] = (int)$dataset[$row][$col];
+            }
+            else {
+                $dataset[$row][$col] = (float)rand($minRandom, $maxRandom);
+                #$dataset[$row][$col] = (int)rand($minRandom, $maxRandom);
+            }
+        }
+    }
+
+    return $dataset;
 }
+
+function ciezkiSkrypt($dataset)
+{
+    for ($row = 0; $row < count($dataset); $row++) {
+        for($col = 4; $col < count($dataset[$row]); $col++) {
+            if(is_numeric($dataset[$row][$col])) {
+                $x = $dataset[$row][$col];
+                $dataset[$row][$col] = log(
+                    pow(pow($x, 1 / 3) + pow($x, 1 / 2), 50) /
+                    (round((pow(pow($x, 1 / 3) - pow($x, 1 / 2), 50)), 2) + 1)
+                );
+            }
+        }
+    }
+
+    return $dataset;
+}
+
+$database = emptyToPi($database);
+#$database = emptyToRandom($database, 1, 10);
+$database = ciezkiSkrypt($database);
+
+/*  wypisanie całej bazy
+
+  foreach ($database as $row) {
+    foreach ($row as $value) {
+        echo " | ".$value;
+    }
+    echo " |<br><br>";
+} */
 //----------------------------------------------------------------------------------------------------
 
 $stopTime = new DateTime();
