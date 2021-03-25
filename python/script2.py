@@ -27,6 +27,7 @@ for x in data_bytes:
     tmp.append(y.decode('utf-8'))
   data.append(tmp)
 print("Loading database...<br>")
+#data = np.array([np.array(xi) for xi in data])
 dateend = datetime.datetime.now()
 elapsedTime=dateend-datestart
 totalTime+=elapsedTime
@@ -41,7 +42,6 @@ datestart = datetime.datetime.now()
 ## Funkcja zamienia puste wartosci/stringi numeryczne na liczbę PI
 #
 def EmptyToPi(dataset):
-    dataset = list(dataset)
     for row in range(len(dataset)):
         dataset[row] = list(dataset[row])
         for col in range(4, len(dataset[row])): #lecimy od 5ego, ponieważ poprzednie to faktyczne napisy
@@ -51,23 +51,34 @@ def EmptyToPi(dataset):
  
 ## Funkcja zamienia puste wartosci/stringi numeryczne na losowe floaty/inty
 #
-def EmptyToRandom(dataset, start, stop, step):
-    dataset = list(dataset)
+def EmptyToPi(dataset):
+    #dataset = list(dataset)
     for row in range(len(dataset)):
         dataset[row] = list(dataset[row])
         for col in range(4, len(dataset[row])): #lecimy od 5ego, ponieważ poprzednie to faktyczne napisy
-            if (isinstance(dataset[row][col], str)): #sprawdzamy czy puste lub string
-                #dataset[row][col] = random.randint(0, int((stop - start) / step)) * step + start #generuje float
-                dataset[row][col] = random.randint(start, stop)
+            if (dataset[row][col] == '' ): #sprawdzamy czy puste lub string
+                dataset[row][col] = math.pi
     return dataset
  
+ 
+def EmptyToRandom(dataset, start, stop, step):
+    #dataset = list(dataset)
+    for row in range(len(dataset)):
+        dataset[row] = list(dataset[row])
+        for col in range(4, len(dataset[row])): #lecimy od 5ego, ponieważ poprzednie to faktyczne napisy
+            if (dataset[row][col] == '' ): #sprawdzamy czy puste lub string
+                dataset[row][col] = random.randint(0, int((stop - start) / step)) * step + start #generuje floato./;kuiolm4der`
+                #dataset[row][col] = random.randint(start, stop)  #generuje int
+    return dataset
+ 
+ 
 def CiezkiSkrypt(dataset):
-    dataset = list(dataset)
+    #dataset = list(dataset)
     for row in range(len(dataset)):
         dataset[row] = list(dataset[row])
         for col in range(len(dataset[row])):
-            if(isinstance(dataset[row][col], (float, int))):
-                dataset[row][col] = math.log(((dataset[row][col]**(1/float(3)) * math.sqrt(dataset[row][col]))**50) / round(dataset[row][col]**(1/float(3)) * math.sqrt(dataset[row][col])**50, 2))
+            if(isinstance(dataset[row][col], (float))):
+                dataset[row][col] = math.log((dataset[row][col]**(1/float(3)) + math.sqrt(dataset[row][col]))**50) / round(((dataset[row][col]**(1/float(3)) - math.sqrt(dataset[row][col])**50)+1), 2)
     return dataset
  
 #data = EmptyToPi(data)
