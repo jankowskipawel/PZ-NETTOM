@@ -35,7 +35,7 @@ echo "script executing...<br>";
 $startTime = new DateTime();
 
 //----------------------------------------------------------------------------------------------------
-function emptyToPi($dataset)
+function emptyToPi(&$dataset)
 {
     for ($row = 0; $row < count($dataset); $row++) {
         for($col = 4; $col < count($dataset[$row]); $col++) {
@@ -47,11 +47,9 @@ function emptyToPi($dataset)
             }
         }
     }
-
-    return $dataset;
 }
 
-function emptyToRandom($dataset, $minRandom, $maxRandom)
+function emptyToRandom(&$dataset, $minRandom, $maxRandom)
 {
     for ($row = 0; $row < count($dataset); $row++) {
         for($col = 4; $col < count($dataset[$row]); $col++) {
@@ -65,30 +63,25 @@ function emptyToRandom($dataset, $minRandom, $maxRandom)
             }
         }
     }
-
-    return $dataset;
 }
 
-function ciezkiSkrypt($dataset)
+function ciezkiSkrypt(&$dataset)
 {
     for ($row = 0; $row < count($dataset); $row++) {
         for($col = 4; $col < count($dataset[$row]); $col++) {
             if(is_numeric($dataset[$row][$col])) {
-                $x = $dataset[$row][$col];
                 $dataset[$row][$col] = log(
-                    pow(pow($x, 1 / 3) + pow($x, 1 / 2), 50) /
-                    (round((pow(pow($x, 1 / 3) - pow($x, 1 / 2), 50)), 2) + 1)
+                    pow(pow($dataset[$row][$col], 1 / 3) + pow($dataset[$row][$col], 1 / 2), 50) /
+                    (round((pow(pow($dataset[$row][$col], 1 / 3) - pow($dataset[$row][$col], 1 / 2), 50)), 2) + 1)
                 );
             }
         }
     }
-
-    return $dataset;
 }
 
-#$database = emptyToPi($database);
-$database = emptyToRandom($database, 1, 10);
-$database = ciezkiSkrypt($database);
+emptyToPi($database);
+#emptyToRandom($database, 1, 10);
+ciezkiSkrypt($database);
 
 /*  wypisanie całej bazy
 
@@ -108,4 +101,13 @@ echo '<br>Elapsed time (script execution): '.$difference->format('%Im %Ss %Fms')
 
 echo 'Total time elapsed: '.$totalTime->format('H:i:s:u').' ';
 
-die();
+$ram = null;
+$database = null;
+$startTime = null;
+$stopTime = null;
+$totalTime = null;
+unset($ram);
+unset($database);
+unset($startTime);
+unset($stopTime);
+unset($totalTime);
