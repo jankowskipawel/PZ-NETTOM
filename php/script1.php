@@ -63,4 +63,13 @@ echo '<br>Elapsed time (script execution): '.$difference->format('%Im %Ss %Fms')
 
 echo 'Total time elapsed: '.$totalTime->format('H:i:s:u').' ';
 
-die();
+$ram = null;
+$database = null;
+$startTime = null;
+$stopTime = null;
+$totalTime = null;
+unset($ram);
+unset($database);
+unset($startTime);
+unset($stopTime);
+unset($totalTime);
