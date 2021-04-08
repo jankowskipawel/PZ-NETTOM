@@ -35,6 +35,16 @@ echo "script executing...<br>";
 $startTime = new DateTime();
 
 //----------------------------------------------------------------------------------------------------
+function multiplyRecords($dataset, $multiplier)
+{
+    $multipliedDataset = $dataset;
+    for($i = 1; $i < $multiplier; $i++) {
+        $multipliedDataset = array_merge($multipliedDataset, $dataset);
+    }
+
+    return $multipliedDataset;
+}
+
 function emptyToPi(&$dataset)
 {
     for ($row = 0; $row < count($dataset); $row++) {
@@ -79,10 +89,13 @@ function ciezkiSkrypt(&$dataset)
     }
 }
 
+$database = multiplyRecords($database, 2);
 emptyToPi($database);
 #emptyToRandom($database, 1, 10);
 ciezkiSkrypt($database);
 
+
+echo 'Script executed for '.count($database).' rows ('.count($database[0]).' columns each).<br>';
 /*  wypisanie całej bazy
 
   foreach ($database as $row) {
@@ -111,3 +124,4 @@ unset($database);
 unset($startTime);
 unset($stopTime);
 unset($totalTime);
+die();
