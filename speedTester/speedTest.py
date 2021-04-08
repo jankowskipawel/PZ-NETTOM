@@ -17,14 +17,19 @@ def plot_graph_one(python_data, php_data):
     fig = plt.figure()
     php_mean = statistics.mean(php_data)
     python_mean = statistics.mean(python_data)
+    zorder_less = 10
+    zorder_more = 11
+    if php_mean>python_mean:
+        zorder_less=11
+        zorder_more=10
     plt.plot(range(len(python_data)), python_data, label="Python")
-    plt.fill_between(range(len(python_data)), python_data, 0, zorder=10)
+    plt.fill_between(range(len(python_data)), python_data, 0, zorder=zorder_less, alpha=0.85)
     plt.plot(range(len(php_data)), php_data, label="PHP")
-    plt.fill_between(range(len(php_data)), php_data, 0, color='orange',  zorder=11)
+    plt.fill_between(range(len(php_data)), php_data, 0, color='orange',  zorder=zorder_more, alpha=0.85)
     plt.ylabel('Time [s]')
     plt.xlabel('Test number')
     plt.title('PHP VS PYTHON \n' +
-              f"Python avg = {round(python_mean, 5)}  PHP avg = {round(php_mean, 5)}  Diff = {round((php_mean/python_mean) * 100, 3)}%")
+              f"Python avg = {round(python_mean, 5)}  PHP avg = {round(php_mean, 5)}  Diff = {round(((python_mean-php_mean)/php_mean)*100, 2)}%")
     plt.legend().set_zorder(100)
     plt.grid(True)
     return fig
@@ -57,23 +62,25 @@ def replace_odd_values(data):
     return result
 
 
-python_url = "http://192.168.56.102/cgi-enabled/script1.py"
-php_url = "http://192.168.56.103/script1.php"
-number_of_tests = 500
-ram = "1GB"
-cpus = "1"
-script_description = "Calculate average value of new covid cases for each country"
+python_url = "http://192.168.56.102/cgi-enabled/script3.py"
+php_url = "http://192.168.56.103/script3.php"
+script_name = "script3"
+number_of_tests = 5
+ram = "2GB"
+cpus = "2"
+script_description = "Calculate complicated formula for each field of data"
+#script_description = "Calculate average value of new covid cases for each country"
 
 parameters = f"{ram}_RAM_{cpus}_CPUs"
 
-python_speeds = replace_odd_values(speed_test_python(python_url, number_of_tests))
 php_speeds = replace_odd_values(speed_test_php(php_url, number_of_tests))
+python_speeds = replace_odd_values(speed_test_python(python_url, number_of_tests))
 
 php_plot = plot_graph_two(php_speeds, f"PHP {parameters}")
 python_plot = plot_graph_two(python_speeds, f"PYTHON {parameters}")
 both_plot = plot_graph_one(python_speeds, php_speeds)
 
-pp = PdfPages(f"{parameters}_{number_of_tests}x.pdf")
+pp = PdfPages(f"{script_name}_{parameters}_{number_of_tests}x.pdf")
 firstPage = plt.figure(figsize=(11.69,8.27))
 firstPage.clf()
 txt = f'Script description: {script_description}\n\n' \
@@ -93,5 +100,12 @@ pp.savefig(firstPage)
 pp.savefig(php_plot)
 pp.savefig(python_plot)
 pp.savefig(both_plot)
+with open(f'{script_name}_{parameters}_{number_of_tests}x.txt', 'w') as filehandle:
+    filehandle.write("PHP\n")
+    for listitem in php_speeds:
+        filehandle.write(f" {listitem}")
+    filehandle.write("\nPython\n")
+    for listitem in python_speeds:
+        filehandle.write(f" {listitem}")
 pp.close()
 
