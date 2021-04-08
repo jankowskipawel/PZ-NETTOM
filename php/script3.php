@@ -1,7 +1,7 @@
 <?php
 
 require_once 'database.php';
-ini_set('memory_limit', '1000M');
+ini_set('memory_limit', '2000M');
 $ram="1GB";
 echo '<div style="width: 100%; font-weight: bold; font-size: 16pt;">';
 echo "PHP (RAM:".$ram.")<br><br>";
@@ -32,7 +32,7 @@ echo 'Elapsed time (database load): '.$difference->format('%Im %Ss %Fms').' (Sta
 
 //Executing script test - start
 echo "script executing...<br>";
-$startTime = new DateTime();
+#$startTime = new DateTime();
 
 //----------------------------------------------------------------------------------------------------
 function multiplyRecords($dataset, $multiplier)
@@ -88,14 +88,12 @@ function ciezkiSkrypt(&$dataset)
         }
     }
 }
-
-$database = multiplyRecords($database, 2);
+$database = multiplyRecords($database, 4);
+echo count($database);
+$startTime = new DateTime();
 emptyToPi($database);
-#emptyToRandom($database, 1, 10);
 ciezkiSkrypt($database);
 
-
-echo 'Script executed for '.count($database).' rows ('.count($database[0]).' columns each).<br>';
 /*  wypisanie całej bazy
 
   foreach ($database as $row) {
@@ -105,7 +103,6 @@ echo 'Script executed for '.count($database).' rows ('.count($database[0]).' col
     echo " |<br><br>";
 } */
 //----------------------------------------------------------------------------------------------------
-
 $stopTime = new DateTime();
 $difference = $startTime->diff($stopTime);
 $totalTime->add($difference);
@@ -124,4 +121,3 @@ unset($database);
 unset($startTime);
 unset($stopTime);
 unset($totalTime);
-die();
