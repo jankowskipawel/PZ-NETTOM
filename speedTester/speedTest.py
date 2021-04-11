@@ -64,7 +64,7 @@ def replace_odd_values(data):
 
 python_url = "http://192.168.56.102/cgi-enabled/script3.py"
 php_url = "http://192.168.56.103/script3.php"
-script_name = "script3"
+script_name = "script3Chrome2"
 number_of_tests = 5
 ram = "2GB"
 cpus = "2"
